@@ -1,5 +1,5 @@
 import './App.css'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import LandingPage from './componenets/LandingPage'
 import AboutPage from './componenets/AboutPage'
 import Navbar from './componenets/Navbar'
@@ -9,14 +9,14 @@ function App() {
 
   return (
     <>
-    <BrowserRouter>
+    <Router>
     <Navbar/>
       <Routes>
         <Route path='/' Component={LandingPage}/>
         <Route path='/about' Component={AboutPage}/>
       </Routes>
       <Footer/>
-      </BrowserRouter> 
+      </Router> 
       
     </>
   )

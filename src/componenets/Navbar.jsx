@@ -64,8 +64,8 @@ function Navbar() {
               key={item.path}
               to={item.path}
               onClick={() => setNavbarOpen(false)}
-              className={`block transition-all duration-300 hover:text-blue-200 ${
-                path === item.path ? "font-semibold underline" : ""
+              className={`block transition-all duration-300 hover:text-green-400 ${
+                path === item.path ? "font-semibold text-green-400" : ""
               }`}
             >
               {item.label}

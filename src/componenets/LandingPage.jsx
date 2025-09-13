@@ -1,9 +1,14 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import Card from './Card'
 import { FaLink, FaChartLine, FaShieldAlt, FaBolt } from "react-icons/fa";
-
+import { motion } from "framer-motion";
 
 const LandingPage = () => {
+
+    const navigate = useNavigate();
+
+    const dashboardNavigateHandler = () => { }
 
     const cardData = [
         {
@@ -21,7 +26,7 @@ const LandingPage = () => {
             subtitle: "Data-Driven Insights",
             description: "Gain insights into your link performance with our comprehensive analytics dashboard. Track clicks, geographical data, and referral sources to optimize your marketing strategies.",
             color: "green",
-            stats: [{ value: "50+", label: "lol" }, { value: "100%", label: "Real-time" }]
+            stats: [{ value: "50+", label: "Metrics" }, { value: "100%", label: "Real-time" }]
         },
         {
             icon: FaShieldAlt,
@@ -42,63 +47,97 @@ const LandingPage = () => {
         }
     ]
 
-
-    const desc = 'Generate short, memorable URLs in seconds with ZipIt. Track performance with powerful analytics. Secure and reliable link management for all your sharing needs.'
     return (
-        <div className="min-h-[calc(1--vh-64px)] lg:px-14 sm:px-8 px-4">
-            <div className="lg:flex-row flex-col    lg:py-5   pt-16   lg:gap-10 gap-8 flex justify-between items-center">
-                <div className="flex-1">
-                    <h1 className='font-bold font-roboto text-slate-800 md:text-5xl sm:text-4xl text-3xl   md:leading-[55px] sm:leading-[45px] leading-10 lg:w-full md:w-[70%] w-full'>
+        <div className="min-h-[calc(100vh-64px)] lg:px-14 sm:px-8 px-4">
+
+            {/* Hero Section */}
+            <div className="lg:flex-row flex-col lg:py-5 pt-16 lg:gap-10 gap-8 flex justify-between items-center">
+                <div className="flex-1 animate-fade-in">
+                    <h1 className="font-bold font-roboto text-slate-800 md:text-5xl sm:text-4xl text-3xl md:leading-[55px] sm:leading-[45px] leading-10 lg:w-full md:w-[70%] w-full animate-slide-right">
                         ZipIt Simplifies URL Shortening for Efficient Sharing
                     </h1>
-                    <p className='text-slate-500 text-sm my-5'>
-                        ZipIt streamlines the process of shortening URL's, making sharing links effortless and efficient. Our platform combines powerful analytics, enhanced security, and lightning-fast performance to deliver the ultimate link management experience.
-                        <span className='font-bold block'>Snip It, Share It, Track It</span>
+                    <p className="text-slate-500 text-sm my-5 animate-slide-up delay-100">
+                        ZipIt streamlines the process of shortening URLs, making sharing links effortless and efficient. Our platform combines powerful analytics, enhanced security, and lightning-fast performance to deliver the ultimate link management experience.
+                        <span className="font-bold block">Snip It, Share It, Track It</span>
                     </p>
 
-
-                    <div className="flex items-center gap-3">
-                        <button className="bg-custom-gradient w-40 text-white rounded-md py-2">
-                            Mange Links
-                        </button>
-                        <button className='border-btnColor border w-40 text-btnColor rounded-md py-2'>
-                            Create Short Links
-                        </button>
+                    <div className="flex items-center gap-3 animate-slide-up delay-200">
+                        <motion.button
+              initial={{ opacity: 0, y: 80 }}
+              whileInView={{
+                opacity: 1,
+                y: 0,
+              }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              onClick={dashboardNavigateHandler}
+              className="bg-custom-gradient  w-40 text-white rounded-md  py-2"
+            >
+              Manage Links
+            </motion.button>
+            <motion.button
+              initial={{ opacity: 0, y: 80 }}
+              whileInView={{
+                opacity: 1,
+                y: 0,
+              }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              onClick={dashboardNavigateHandler}
+              className="border-btnColor border w-40 text-btnColor rounded-md  py-2 "
+            >
+              Create Short Link
+            </motion.button>
                     </div>
                 </div>
-                <div className="flex-1 flex justify-center w-full">
-                    <img
-                        className='sm:w-[480px] w-400 object-cover rounded-md'
-                        src="../../public/images/img2.png" alt="project logo" />
+
+                {/* Hero Image */}
+                <div className="flex-1 flex justify-center w-full animate-slide-left">
+                    <motion.img
+                        initial={{ opacity: 0 }}
+                        whileInView={{
+                            opacity: 1,
+                        }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8 }}
+                        className="sm:w-[480px] w-[400px] object-cover rounded-md"
+                        src="/images/img2.png"
+                        alt=""
+                    />
                 </div>
             </div>
 
+            {/* Features Section */}
             <div className="sm:pt-2 pt-7">
-                <p className="text-slate-800 font-roboto font-bold lg:w-[60%]  md:w-[70%] sm:w-[80%] mx-auto text-2xl text-center">
-                    Trusted by Individuals and Teams perfroming at the hightest levels
+                <p className="text-slate-800 font-roboto font-bold lg:w-[60%] md:w-[70%] sm:w-[80%] mx-auto text-2xl text-center animate-fade-in">
+                    Trusted by Individuals and Teams performing at the highest levels
                 </p>
+
                 <div className="grid gap-8 my-10 
-                grid-cols-1   /* default: 1 card per row (mobile/small) */
-                sm:grid-cols-1
-                md:grid-cols-2  /* medium: 2 cards per row */
-                lg:grid-cols-4">
+                    grid-cols-1 
+                    sm:grid-cols-1
+                    md:grid-cols-2 
+                    lg:grid-cols-4">
 
                     {cardData.map((data, index) => (
-                        <Card
+                        <div
                             key={index}
-                            icon={data.icon}
-                            title={data.title}
-                            subtitle={data.subtitle}
-                            description={data.description}
-                            color={data.color}
-                            stats={data.stats}
-                            glow={data.glow}
-                            onAction={() => alert(`Action clicked for ${data.title}`)}
-                        />
+                            className="animate-slide-up"
+                            style={{ animationDelay: `${index * 150}ms` }}
+                        >
+                            <Card
+                                icon={data.icon}
+                                title={data.title}
+                                subtitle={data.subtitle}
+                                description={data.description}
+                                color={data.color}
+                                stats={data.stats}
+                                glow={data.glow}
+                                onAction={() => alert(`Action clicked for ${data.title}`)}
+                            />
+                        </div>
                     ))}
-
                 </div>
-
             </div>
         </div>
     )
