@@ -1,20 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { motion } from 'framer-motion';
-import TextField from './TextField'; // Assuming TextField is in the same directory or adjust the import path
+import TextField from './TextField';
+import Toast from './Toast';
+import axios from 'axios';
 
 const RegisterPage = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
+  const baseUrl = import.meta.env.VITE_BASE_URL;
+  const [toast, setToast] = useState({ show: false, messageHead: '', messageBody: '', type: 'success' });
 
-  const onSubmit = (data) => {
-    const {username, email, password} = data;
-    const roles = new Set(['user']);
-    const registrationData = {username, email, password, roles};
+  const onSubmit = async (data) => {
+    const { username, email, password } = data;
+    const roles = ['user'];
+    const registrationData = { username, email, password, roles };
     console.log('Registration Data:', registrationData);
-    // Handle form submission (e.g., API call)
+    try {
+      const response = await axios.post(`${baseUrl}/api/auth/public/register`, registrationData);
+      console.log('Registration Success:', response);
+      setToast({
+        show: true,
+        messageHead: 'Success!',
+        messageBody: 'Your account has been created successfully.',
+        type: 'success',
+      });
+    } catch (error) {
+      console.log('Registration Error:', error);
+      setToast({
+        show: true,
+        messageHead: 'Error',
+        messageBody: error.response?.data?.message || 'Failed to register. Please try again.',
+        type: 'error',
+      });
+    }
   };
 
-  // Animation variants for the form container
+  const handleCloseToast = () => {
+    setToast({ ...toast, show: false });
+  };
+
   const containerVariants = {
     hidden: { opacity: 0, y: 50 },
     visible: {
@@ -28,7 +52,6 @@ const RegisterPage = () => {
     },
   };
 
-  // Animation variants for child elements (title, fields, buttons)
   const childVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
@@ -40,7 +63,7 @@ const RegisterPage = () => {
 
   return (
     <motion.div
-      className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8"
+      className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8 font-roboto"
       initial="hidden"
       animate="visible"
       variants={containerVariants}
@@ -50,7 +73,7 @@ const RegisterPage = () => {
         variants={childVariants}
       >
         <motion.div variants={childVariants}>
-          <h2 className="text-center text-3xl font-bold text-gray-900 dark:text-gray-100 animate-slide-right">
+          <h2 className="text-center text-3xl font-bold text-gray-900 dark:text-gray-100 font-montserrat animate-slide-right">
             Create Your Account
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600 dark:text-gray-400 animate-fade-in">
@@ -142,6 +165,14 @@ const RegisterPage = () => {
           </motion.p>
         </motion.div>
       </motion.div>
+      {toast.show && (
+        <Toast
+          messageHead={toast.messageHead}
+          messageBody={toast.messageBody}
+          type={toast.type}
+          onClose={handleCloseToast}
+        />
+      )}
     </motion.div>
   );
 };
