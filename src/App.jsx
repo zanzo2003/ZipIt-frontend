@@ -4,6 +4,7 @@ import LandingPage from './componenets/LandingPage'
 import AboutPage from './componenets/AboutPage'
 import Navbar from './componenets/Navbar'
 import Footer from './componenets/Footer'
+import RegisterPage from './componenets/RegisterPage'
 function App() {
 
 
@@ -14,6 +15,7 @@ function App() {
       <Routes>
         <Route path='/' Component={LandingPage}/>
         <Route path='/about' Component={AboutPage}/>
+        <Route path='/register' Component={RegisterPage}/>
       </Routes>
       <Footer/>
       </Router> 

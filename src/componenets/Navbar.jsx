@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FaLink, FaBars, FaTimes } from "react-icons/fa";
+import { useNavigate } from "react-router-dom"; 
 
 function Navbar() {
   const path = useLocation().pathname;
   const [navbarOpen, setNavbarOpen] = useState(false);
-  const onLogoutHandler = () => {
-    // future: logout logic
+  const navigate = useNavigate();
+
+  const onRegisterHandler = () => {
+    navigate('/register');
     console.log("Logout clicked");
   };
 
@@ -26,7 +29,7 @@ function Navbar() {
         </div>
 
         {/* Desktop Links */}
-        <div className="hidden md:flex space-x-8">
+        <div className="hidden md:flex space-x-8 items-center">
           {navItems.map((item) => (
             <Link
               key={item.path}
@@ -41,10 +44,10 @@ function Navbar() {
 
           {/* Example logout (optional) */}
           <button
-            onClick={onLogoutHandler}
+            onClick={onRegisterHandler}
             className="bg-white text-blue-600 px-4 py-2 rounded-lg font-semibold hover:bg-blue-50 transition-all"
           >
-            Logout
+            Sign up
           </button>
         </div>
 
@@ -73,12 +76,12 @@ function Navbar() {
           ))}
           <button
             onClick={() => {
-              onLogoutHandler();
+              onRegisterHandler();
               setNavbarOpen(false);
             }}
             className="block w-full text-left bg-white text-blue-600 px-4 py-2 rounded-lg font-semibold hover:bg-blue-50 transition-all"
           >
-            Logout
+            Sign up
           </button>
         </div>
       )}
