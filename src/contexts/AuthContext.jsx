@@ -1,14 +1,13 @@
 import { useState, createContext } from "react";
 
 
-const AuthContext = createContext();
+export const AuthContext = createContext();
 
 
 
 export const AuthContextProvider = ({children})=>{
-    const getToken =  localStorage.getItem("token")
-                        ? JSON.parse(localStorage.getItem("token"))
-                        : null;
+    const getToken =  localStorage.getItem("token")? localStorage.getItem("token"): null;
+    console.log("Token from context : ", getToken)
 
     const [ token, setToken ] = useState(getToken);
 
