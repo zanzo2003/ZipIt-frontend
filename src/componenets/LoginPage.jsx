@@ -1,35 +1,52 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { motion } from 'framer-motion';
-import TextField from './TextField';
-import Toast from './Toast';
 import axios from 'axios';
+import Toast from './Toast';
+import TextField from './TextField';
+import { useNavigate } from 'react-router-dom';
 
-const RegisterPage = () => {
+const LoginPage = () => {
   const baseUrl = import.meta.env.VITE_BASE_URL;
+  const navigate = useNavigate();
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const [toast, setToast] = useState({ show: false, messageHead: '', messageBody: '', type: 'success' });
+  const [toast, setToast] = useState({
+    show: false,
+    messageHead: '',
+    messageBody: '',
+    type: 'success',
+  });
 
   const onSubmit = async (data) => {
-    const { username, email, password } = data;
-    const roles = ['user'];
-    const registrationData = { username, email, password, roles };
-    console.log('Registration Data:', registrationData);
+    const { username, password } = data;
+    const loginData = { username, password };
+    console.log('Login Data:', loginData);
+
     try {
-      const response = await axios.post(`${baseUrl}/api/auth/public/register`, registrationData);
-      console.log('Registration Success:', response);
+      const response = await axios.post(`${baseUrl}/api/auth/public/login`, loginData);
+      console.log('Login Success:', response);
       setToast({
         show: true,
-        messageHead: 'Success!',
-        messageBody: 'Your account has been created successfully.',
+        messageHead: 'Welcome!',
+        messageBody: 'You have logged in successfully.',
         type: 'success',
       });
+
+      // store in local storage
+      localStorage.setItem('token', response.data.token);
+
+      //TODO: save in state for other components to use
+
+
+      // navigate to home page
+      navigate("/")
+      
     } catch (error) {
-      console.log('Registration Error:', error);
+      console.log('Login Error:', error);
       setToast({
         show: true,
         messageHead: 'Error',
-        messageBody: error.response?.data?.message || 'Failed to register. Please try again.',
+        messageBody: error.response?.data?.message || 'Invalid username or password.',
         type: 'error',
       });
     }
@@ -74,12 +91,13 @@ const RegisterPage = () => {
       >
         <motion.div variants={childVariants}>
           <h2 className="text-center text-3xl font-bold text-gray-900 dark:text-gray-100 font-montserrat animate-slide-right">
-            Create Your Account
+            Sign In to Your Account
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600 dark:text-gray-400 animate-fade-in">
-            Join us today! Fill in the details below to register.
+            Please enter your credentials to continue.
           </p>
         </motion.div>
+
         <motion.div className="mt-8 space-y-6" variants={childVariants}>
           <div className="space-y-6">
             {[
@@ -90,19 +108,7 @@ const RegisterPage = () => {
                 placeholder: 'Enter your username',
                 required: true,
                 message: 'Username is required',
-                min: 3,
-                helperText: 'Choose a unique username',
                 delay: 0,
-              },
-              {
-                label: 'Email',
-                id: 'email',
-                type: 'email',
-                placeholder: 'Enter your email',
-                required: true,
-                message: 'Email is required',
-                helperText: "We'll never share your email",
-                delay: 150,
               },
               {
                 label: 'Password',
@@ -111,9 +117,7 @@ const RegisterPage = () => {
                 placeholder: 'Enter your password',
                 required: true,
                 message: 'Password is required',
-                min: 6,
-                helperText: 'Use at least 6 characters',
-                delay: 300,
+                delay: 150,
               },
             ].map((field) => (
               <motion.div
@@ -136,12 +140,11 @@ const RegisterPage = () => {
                   variant="outlined"
                   size="md"
                   className="w-full"
-                  min={field.min}
-                  helperText={field.helperText}
                 />
               </motion.div>
             ))}
           </div>
+
           <motion.div variants={childVariants}>
             <motion.button
               type="button"
@@ -151,20 +154,22 @@ const RegisterPage = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
             >
-              Register
+              Login
             </motion.button>
           </motion.div>
+
           <motion.p
             className="text-center text-sm text-gray-600 dark:text-gray-400"
             variants={childVariants}
           >
-            Already have an account?{' '}
-            <a href="/login" className="font-medium text-linkColor hover:text-blue-600">
-              Sign in
+            Don’t have an account?{' '}
+            <a href="/register" className="font-medium text-linkColor hover:text-blue-600">
+              Register
             </a>
           </motion.p>
         </motion.div>
       </motion.div>
+
       {toast.show && (
         <Toast
           messageHead={toast.messageHead}
@@ -177,4 +182,4 @@ const RegisterPage = () => {
   );
 };
 
-export default RegisterPage;
+export default LoginPage;

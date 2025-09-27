@@ -5,6 +5,7 @@ import AboutPage from './componenets/AboutPage'
 import Navbar from './componenets/Navbar'
 import Footer from './componenets/Footer'
 import RegisterPage from './componenets/RegisterPage'
+import LoginPage from './componenets/LoginPage'
 function App() {
 
 
@@ -16,6 +17,7 @@ function App() {
         <Route path='/' Component={LandingPage}/>
         <Route path='/about' Component={AboutPage}/>
         <Route path='/register' Component={RegisterPage}/>
+        <Route path='/login' Component={LoginPage}/>
       </Routes>
       <Footer/>
       </Router> 
