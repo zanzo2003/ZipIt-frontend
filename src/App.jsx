@@ -6,6 +6,7 @@ import Navbar from './componenets/Navbar'
 import Footer from './componenets/Footer'
 import RegisterPage from './componenets/RegisterPage'
 import LoginPage from './componenets/LoginPage'
+import DashboardLayout from './componenets/dashboard/DashboardLayout'
 function App() {
 
 
@@ -18,6 +19,7 @@ function App() {
         <Route path='/about' Component={AboutPage}/>
         <Route path='/register' Component={RegisterPage}/>
         <Route path='/login' Component={LoginPage}/>
+        <Route path='/dashboard' Component={DashboardLayout}></Route>
       </Routes>
       <Footer/>
       </Router> 

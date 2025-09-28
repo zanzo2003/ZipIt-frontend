@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { motion } from 'framer-motion';
 import axios from 'axios';
 import Toast from './Toast';
 import TextField from './TextField';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../contexts/AuthContext';
+
 
 const LoginPage = () => {
+  const { setToken} = useContext(AuthContext);
   const baseUrl = import.meta.env.VITE_BASE_URL;
   const navigate = useNavigate();
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -20,6 +23,8 @@ const LoginPage = () => {
   const onSubmit = async (data) => {
     const { username, password } = data;
     const loginData = { username, password };
+
+
     console.log('Login Data:', loginData);
 
     try {
@@ -33,10 +38,11 @@ const LoginPage = () => {
       });
 
       // store in local storage
-      localStorage.setItem('token', response.data.token);
+      console.log(response.data.data.token);
+      localStorage.setItem('token', response.data.data.token);
 
-      //TODO: save in state for other components to use
-
+      // save in state for other components to use
+      setToken(response.data.data.token);
 
       // navigate to home page
       navigate("/")

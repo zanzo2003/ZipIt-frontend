@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Card from './Card'
 import { FaLink, FaChartLine, FaShieldAlt, FaBolt } from "react-icons/fa";
 import { motion } from "framer-motion";
+import { AuthContext } from '../contexts/AuthContext';
 
 const LandingPage = () => {
-
+    const { token } = useContext(AuthContext);
+    console.log("Token in landing page : ", token)
     const navigate = useNavigate();
 
     const dashboardNavigateHandler = () => { }
