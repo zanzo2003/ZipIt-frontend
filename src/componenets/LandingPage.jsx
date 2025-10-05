@@ -10,7 +10,14 @@ const LandingPage = () => {
     console.log("Token in landing page : ", token)
     const navigate = useNavigate();
 
-    const dashboardNavigateHandler = () => { }
+    const dashboardNavigateHandler = () => {
+        if(token){
+            navigate('/dashboard');
+        } 
+        else{
+            navigate('/register')
+        }
+     }
 
     const cardData = [
         {

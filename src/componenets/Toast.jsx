@@ -39,7 +39,7 @@ const Toast = ({ messageHead, messageBody, type, onClose }) => {
   return (
     <AnimatePresence>
       <motion.div
-        className={`fixed bottom-4 right-4 max-w-sm w-full ${bg} ${border} ${text} rounded-xl shadow-custom p-4  border-l-4`}
+        className={`fixed top-4 right-4 max-w-sm w-full ${bg} ${border} ${text} rounded-xl shadow-custom p-4  border-l-4`}
         initial="hidden"
         animate="visible"
         exit="exit"

@@ -98,7 +98,7 @@ const Card = ({
           ${theme.border}
         `}>
           {/* Animated Background Pattern */}
-          <div className="absolute inset-0 opacity-5">
+          <div className="absolute inset-0 opacity-5 z-0">
             <div className={`
               absolute inset-0 bg-gradient-to-br ${theme.primary.replace('text-', 'from-')} to-transparent
               ${isHovered ? 'scale-110 rotate-12' : 'scale-100 rotate-0'}
