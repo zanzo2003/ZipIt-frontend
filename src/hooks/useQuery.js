@@ -32,7 +32,7 @@ export const useFetchTotalClicks = (authToken, onError) => {
                 const totalClicks = Object.keys(data.data).map((key) => ({
                     clickDate: key,
                     count: data.data[key]
-                }));
+                })).reverse();
                 return totalClicks;
             },
             onError,
