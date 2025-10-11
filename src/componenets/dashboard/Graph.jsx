@@ -18,9 +18,10 @@ ChartJS.register(
   Legend,
   Filler
 );
-import { useNavigate } from "react-router-dom";
 
 const Graph = ({ clickData }) => {
+
+  console.log("Data recived for Graph : ", clickData)
   const labels = clickData?.map((item, i) => `${item.clickDate}`);
   const userPerData = clickData?.map((item) => item.count);
 

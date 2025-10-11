@@ -40,3 +40,29 @@ export const useFetchTotalClicks = (authToken, onError) => {
         })
 }
 
+
+
+export const useFetchAllLinks = (authToken, onError) => {
+
+    const headers = {
+        'Authorization': `Bearer ${authToken}`,
+        'Content-Type': "application/json",
+        'Accept': "application/json"
+    };
+
+    return useQuery("url-allLinks",
+        async () => {
+            return await axios.get(baseUrl + '/api/urls/my-urls', {headers});
+        },
+        {
+            select: (response) =>{
+                const data = response.data;
+                console.log("Data from fetch all links : ", data.data);
+                const allLinks = data.data;
+                return allLinks;
+            },
+            onError,
+            staleTime: 5000,
+        })
+}
+

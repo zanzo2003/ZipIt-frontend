@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Link2, Copy, Check, X } from 'lucide-react';
-import Toast from './Toast';
+import Toast from '../Toast';
 import axios from 'axios';
-import Loading from './Loading';
+import Loading from '../Loading';
 
 
 

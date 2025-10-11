@@ -4,15 +4,16 @@ import { motion } from "framer-motion";
 import { useContext, useState } from 'react'
 import { AuthContext} from '../../contexts/AuthContext.jsx'
 import { useNavigate } from 'react-router-dom';
-import { useFetchTotalClicks } from '../../hooks/useQuery.js';
-import Loading from '../Loading'; // Adjust the import path as needed
-import { h2 } from 'motion/react-client';
-import CreateUrl from '../CreateUrl.jsx';
+import { useFetchTotalClicks, useFetchAllLinks } from '../../hooks/useQuery.js';
+import Loading from '../Loading';
+import CreateUrl from './CreateUrl.jsx';
+import UrlList from './UrlList.jsx';
 
 function DashboardLayout() {
   const { token } = useContext(AuthContext)
   const navigate = useNavigate();
   const [shorternPopUp, setShorternPopUp] = useState(false);
+  console.log("Token in dashboard layout : ", token);
 
   function onError(){
     console.log('Error in fetching data for dashboard')
@@ -20,10 +21,10 @@ function DashboardLayout() {
   }
 
   const {isLoading, data} = useFetchTotalClicks(token, onError);
-  console.log("Fetch Data for Dashboard : ", data)
-  console.log('Loading: ', isLoading)
+  console.log("Fetch Data for Dashboard : ", data);
 
-  console.log("Token in dashboard layout : ", token)
+  const {data: urlData} = useFetchAllLinks(token, onError);
+  console.log("All urls : ", urlData);
 
   const createShortUrlHandler = () => {
     setShorternPopUp(true);
@@ -67,12 +68,28 @@ function DashboardLayout() {
           >
             Create Short Link
           </motion.button>
+
           <div>
             { shorternPopUp && (
               <CreateUrl authToken={token} onClose={ ()=> setShorternPopUp(false)}/>
             )}
           </div>
         </div>
+
+        <div>
+              {!isLoading && urlData.length === 0 ? (
+                <div className="flex justify-center pt-16">
+                  <div className="flex gap-2 items-center justify-center  py-6 sm:px-8 px-5 rounded-md   shadow-lg  bg-gray-50">
+                    <h1 className="text-slate-800 font-montserrat   sm:text-[18px] text-[14px] font-semibold mb-1 ">
+                      You haven't created any short link yet
+                    </h1>
+                    <FaLink className="text-blue-500 sm:text-xl text-sm " />
+                  </div>
+              </div>
+              ) : (
+                  <UrlList data={urlData} />
+              )}
+            </div>
       </div>
     </div>
   )
