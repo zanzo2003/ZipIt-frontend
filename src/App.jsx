@@ -7,6 +7,7 @@ import Footer from './componenets/Footer'
 import RegisterPage from './componenets/RegisterPage'
 import LoginPage from './componenets/LoginPage'
 import DashboardLayout from './componenets/dashboard/DashboardLayout'
+import AuthGuard from './auth/AuthGuard'
 function App() {
 
 
@@ -15,11 +16,11 @@ function App() {
     <Router>
     <Navbar/>
       <Routes>
-        <Route path='/' Component={LandingPage}/>
-        <Route path='/about' Component={AboutPage}/>
-        <Route path='/register' Component={RegisterPage}/>
-        <Route path='/login' Component={LoginPage}/>
-        <Route path='/dashboard' Component={DashboardLayout}></Route>
+        <Route path='/' element={ <AuthGuard publicPage={true}> <LandingPage/> </AuthGuard>}/>
+        <Route path='/about' element={ <AuthGuard publicPage={true}> <AboutPage/> </AuthGuard>}/>
+        <Route path='/register' element={ <AuthGuard publicPage={true}> <RegisterPage/> </AuthGuard>}/>
+        <Route path='/login' element={<AuthGuard publicPage={true}> <LoginPage/> </AuthGuard>}/>
+        <Route path='/dashboard' element={<AuthGuard publicPage={false}> <DashboardLayout/> </AuthGuard>}></Route>
       </Routes>
       <Footer/>
       </Router> 
