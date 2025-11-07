@@ -7,8 +7,8 @@ function AuthGuard( {children, publicPage} ) {
 
     const { token}  = useContext(AuthContext);
 
-    if( publicPage){
-        return token? <Navigate to="/dashboard" /> : children;
+    if(publicPage){
+        return children;
     }
 
     return !token? <Navigate to="/login" /> : children;

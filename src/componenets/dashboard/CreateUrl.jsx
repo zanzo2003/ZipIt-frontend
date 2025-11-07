@@ -49,6 +49,11 @@ function CreateUrl({ authToken, onClose }) {
             .then((response) => {
                 handleToast('Success', 'URL Shorterend Successfully', 'success');
                 console.log("Create response : ", response.data);
+                if(response.status === 401){
+                    localStorage.removeItem('authToken');
+                    window.location.reload();
+                }
+                return ;
             })
             .catch((error) => {
                 console.log("Error while creating : ", error);

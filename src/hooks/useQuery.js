@@ -28,6 +28,11 @@ export const useFetchTotalClicks = (authToken, onError) => {
         {
             select: (response) =>{
                 const data = response.data;
+                if(response.status === 401){
+                    localStorage.removeItem('authToken');
+                    window.location.reload();
+                    return ;
+                }
                 console.log("Data from useFetchTotalClicks : ", data.data);
                 const responseMapping = Object.keys(data.data).map((key) => ({
                     clickDate: key,
@@ -62,6 +67,11 @@ export const useFetchAllLinks = (authToken, onError) => {
         {
             select: (response) =>{
                 const data = response.data;
+                if(response.status === 401){
+                    localStorage.removeItem('authToken');
+                    window.location.reload();
+                    return ;
+                }
                 console.log("Data from fetch all links : ", data.data);
                 const allLinks = data.data;
                 return allLinks;

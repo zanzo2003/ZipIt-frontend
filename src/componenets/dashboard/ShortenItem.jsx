@@ -51,12 +51,18 @@ const ShortenItem = ({ originalUrl, shortUrl, clickCount, createdAt }) => {
         const endDateParam = endDate.toISOString().slice(0, 19);
 
         try {
-             const { data } = await axios.get(baseUrl + `/api/analytics/${selectedUrl}?startDate=${startDateParam}&endDate=${endDateParam}`, {
+             const { status, data } = await axios.get(baseUrl + `/api/analytics/${selectedUrl}?startDate=${startDateParam}&endDate=${endDateParam}`, {
                         headers: {
                           Accept: "application/json",
                           Authorization: "Bearer " + token,
                         },
                       });
+
+            if(status === 401){
+                localStorage.removeItem('authToken');
+                window.location.reload();
+                return ;
+            }
 
             const formattedData = data.data.sort(
                 (a, b) => new Date(b.clickDate) - new Date(a.clickDate)
