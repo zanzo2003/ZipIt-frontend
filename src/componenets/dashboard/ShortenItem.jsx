@@ -21,7 +21,14 @@ const ShortenItem = ({ originalUrl, shortUrl, clickCount, createdAt }) => {
     const [loader, setLoader] = useState(false);
     const [selectedUrl, setSelectedUrl] = useState("");
     const [analyticsData, setAnalyticsData] = useState([]);
-    console.log(`Data from Item : ${originalUrl} ${shortUrl} ${clickCount} ${createdAt}`)
+    const [toast, setToast] = useState({
+    show: false,
+    messageHead: '',
+    messageBody: '',
+    type: 'success',
+  });
+
+
 
     const subDomain = baseUrl
 
@@ -55,12 +62,21 @@ const ShortenItem = ({ originalUrl, shortUrl, clickCount, createdAt }) => {
             console.log("Data from individual Analytics : ", data.data);
             
         } catch (error) {
-            navigate("/error");
-            console.log(error);
+            console.log("Error loading URL analytics : " , error);
+            setToast({
+                show: true,
+                messageHead: 'Sorry!!',
+                messageBody: 'Failed to load analytics data.',
+                type: 'error',
+            })
         } finally {
             setLoader(false);
         }
     }
+
+    const handleCloseToast = () => {
+        setToast({ ...toast, show: false });
+    };
 
 
     useEffect(() => {
@@ -68,6 +84,7 @@ const ShortenItem = ({ originalUrl, shortUrl, clickCount, createdAt }) => {
             fetchMyShortUrl();
         }
     }, [selectedUrl]);
+
 
   return (
     <div className={`bg-slate-100 shadow-lg border border-dotted  border-slate-500 px-6 sm:py-1 py-3 rounded-md  transition-all duration-100 `}>
@@ -177,6 +194,16 @@ const ShortenItem = ({ originalUrl, shortUrl, clickCount, createdAt }) => {
                     )}f
         </div>
     </React.Fragment>
+    {
+        toast.show && (
+            <Toast
+                messageHead={toast.messageHead}
+                messageBody={toast.messageBody}
+                type={toast.type}
+                onClose={handleCloseToast}
+            />
+        )
+    }
     </div>
   )
 }
