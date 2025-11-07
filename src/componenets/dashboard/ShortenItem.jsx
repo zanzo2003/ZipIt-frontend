@@ -9,6 +9,8 @@ import { MdAnalytics, MdOutlineAdsClick } from 'react-icons/md';
 import { Link, useNavigate } from 'react-router-dom';
 import { Hourglass } from 'react-loader-spinner';
 import Graph from './Graph';
+import axios from 'axios';
+import Toast from '../Toast.jsx';
 
 const ShortenItem = ({ originalUrl, shortUrl, clickCount, createdAt }) => {
     const baseUrl = import.meta.env.VITE_BASE_URL;
@@ -32,18 +34,25 @@ const ShortenItem = ({ originalUrl, shortUrl, clickCount, createdAt }) => {
 
     const fetchMyShortUrl = async () => {
         setLoader(true);
+
+        const endDate = new Date();
+        const startDate = new Date();
+        startDate.setFullYear(endDate.getFullYear() - 1);
+
+        const startDateParam = startDate.toISOString().slice(0, 19);
+        const endDateParam = endDate.toISOString().slice(0, 19);
+
         try {
-             const { data } = await axios.get(baseUrl + `/api/urls/analytics/${selectedUrl}?startDate=2024-12-01T00:00:00&endDate=2025-12-31T23:59:59`, {
+             const { data } = await axios.get(baseUrl + `/api/analytics/${selectedUrl}?startDate=${startDateParam}&endDate=${endDateParam}`, {
                         headers: {
-                          "Content-Type": "application/json",
                           Accept: "application/json",
                           Authorization: "Bearer " + token,
                         },
                       });
         
-            setAnalyticsData(data);
+            setAnalyticsData(data.data);
             setSelectedUrl("");
-            console.log("Data from individual Analytics : ", data);
+            console.log("Data from individual Analytics : ", data.data);
             
         } catch (error) {
             navigate("/error");
@@ -74,8 +83,8 @@ const ShortenItem = ({ originalUrl, shortUrl, clickCount, createdAt }) => {
             <Link
               target='_'
               className='text-[17px] font-[600] text-linkColor'
-              to={baseUrl + `${shortUrl}`}>
-                  {subDomain + `${shortUrl}`}
+              to={baseUrl + `/${shortUrl}`}>
+                  {subDomain + `/${shortUrl}`}
             </Link>
             <FaExternalLinkAlt className="text-linkColor" />
             </div>
@@ -165,7 +174,7 @@ const ShortenItem = ({ originalUrl, shortUrl, clickCount, createdAt }) => {
                     )}
                         <Graph clickData={analyticsData} />
                     </>
-                    )}
+                    )}f
         </div>
     </React.Fragment>
     </div>
