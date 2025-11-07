@@ -29,10 +29,15 @@ export const useFetchTotalClicks = (authToken, onError) => {
             select: (response) =>{
                 const data = response.data;
                 console.log("Data from useFetchTotalClicks : ", data.data);
-                const totalClicks = Object.keys(data.data).map((key) => ({
+                const responseMapping = Object.keys(data.data).map((key) => ({
                     clickDate: key,
                     count: data.data[key]
                 })).reverse();
+
+                const totalClicks = responseMapping.sort(
+                    (a, b) => new Date(b.clickDate) - new Date(a.clickDate)
+                );
+                console.log("Fetched all analytics : ", totalClicks)
                 return totalClicks;
             },
             onError,
@@ -65,4 +70,3 @@ export const useFetchAllLinks = (authToken, onError) => {
             staleTime: 5000,
         })
 }
-

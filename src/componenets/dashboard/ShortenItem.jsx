@@ -11,6 +11,7 @@ import { Hourglass } from 'react-loader-spinner';
 import Graph from './Graph';
 import axios from 'axios';
 import Toast from '../Toast.jsx';
+import { form } from 'motion/react-client';
 
 const ShortenItem = ({ originalUrl, shortUrl, clickCount, createdAt }) => {
     const baseUrl = import.meta.env.VITE_BASE_URL;
@@ -56,10 +57,14 @@ const ShortenItem = ({ originalUrl, shortUrl, clickCount, createdAt }) => {
                           Authorization: "Bearer " + token,
                         },
                       });
+
+            const formattedData = data.data.sort(
+                (a, b) => new Date(b.clickDate) - new Date(a.clickDate)
+            )
         
-            setAnalyticsData(data.data);
+            setAnalyticsData(formattedData);
             setSelectedUrl("");
-            console.log("Data from individual Analytics : ", data.data);
+            console.log("Data from individual Analytics : ", formattedData);
             
         } catch (error) {
             console.log("Error loading URL analytics : " , error);
